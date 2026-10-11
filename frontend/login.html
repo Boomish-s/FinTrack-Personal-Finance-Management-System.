@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintrack | Welcome</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --red: #f87171;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--background) 70%);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .auth-container {
+            width: min(100%, 420px);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand-logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .brand-logo span {
+            color: var(--primary);
+        }
+
+        .brand-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .brand-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            background: #0f172a;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        #submit-button {
+            margin-top: 6px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        #submit-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        #message {
+            margin-top: 16px;
+            font-size: 13px;
+            text-align: center;
+            color: var(--red);
+            min-height: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .switch {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .switch button {
+            background: transparent;
+            border: none;
+            color: #818cf8;
+            font-weight: 600;
+            font-size: 13px;
+            margin-left: 6px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .switch button:hover {
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="brand-header">
+            <div class="brand-logo">Fintrack<span>.</span></div>
+            <h1 id="heading">Welcome back</h1>
+            <p>Manage your finances with confidence.</p>
+        </div>
+
+        <form id="auth-form">
+            <input id="name" placeholder="Full name" autocomplete="name" style="display:none">
+            <input id="email" type="email" placeholder="Email address" autocomplete="email" required>
+            <input id="password" type="password" placeholder="Password" autocomplete="current-password" required>
+            <button id="submit-button" type="submit">Login</button>
+        </form>
+
+        <p id="message" role="status"></p>
+
+        <div class="switch">
+            <span id="switch-text">New to Fintrack?</span>
+            <button type="button" id="switch-button">Create account</button>
+        </div>
+    </div>
+
+    <script>
+        let registering = false;
+
+        const form = document.getElementById("auth-form");
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const message = document.getElementById("message");
+
+        document.getElementById("switch-button").onclick = () => {
+            registering = !registering;
+            nameInput.style.display = registering ? "block" : "none";
+            nameInput.required = registering;
+            passwordInput.autocomplete = registering ? "new-password" : "current-password";
+
+            document.getElementById("heading").textContent =
+                registering ? "Create account" : "Welcome back";
+            document.getElementById("submit-button").textContent =
+                registering ? "Register" : "Login";
+            document.getElementById("switch-text").textContent =
+                registering ? "Already registered?" : "New to Fintrack?";
+            document.getElementById("switch-button").textContent =
+                registering ? "Login instead" : "Create account";
+            message.textContent = "";
+        };
+
+        form.onsubmit = async (event) => {
+            event.preventDefault();
+            message.textContent = "Please wait...";
+
+            try {
+                const response = await fetch(
+                    registering ? "/api/register" : "/api/login",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        credentials: "same-origin",
+                        body: JSON.stringify({
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            password: passwordInput.value
+                        })
+                    }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || "Something went wrong.");
+                }
+
+                window.location.href = "/";
+            } catch (error) {
+                message.textContent = error.message;
+            }
+        };
+    </script>
+</body>
+</html>
